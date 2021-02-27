@@ -1,0 +1,19 @@
+﻿<!-- Search form -->
+<form class="form-inline d-flex justify-content-center md-form form-sm mt-0">
+    <i class="fas fa-search" aria-hidden="true"></i>
+    <input class="form-control form-control-lg ml-3 w-75" type="text" placeholder="Search"
+           aria-label="Search" @bind-value="filter">
+    <button type="button" class="btn btn-outline-info btn-lg ml-1" @onclick="HandleSearch" style="font-weight: bold">Search</button>
+</form>
+
+@code {
+    private string filter;
+
+    [Parameter]
+    public EventCallback<string> OnSearchItem { get; set; }
+
+    private async Task HandleSearch()
+    {
+        await OnSearchItem.InvokeAsync(filter);
+    }
+}

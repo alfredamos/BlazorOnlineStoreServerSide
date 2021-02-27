@@ -1,0 +1,44 @@
+﻿
+<EditForm Model="Order" style="width: 50%">
+    <div class="form-group">
+        <label for="Customer" class="form-label">Customer</label>
+        <CustomInputSelect @bind-Value="Order.CustomerID" class="form-control">
+            <option>Select Customer</option>
+            @foreach (var customer in Customers)
+            {
+                var fullName = customer.FirstName + " " + customer.LastName;
+                <option value="@customer.CustomerID">@fullName</option>
+            }
+        </CustomInputSelect>
+    </div>
+    <div class="form-group">
+        <label for="AdminUser" class="form-label">AdminUser</label>
+        <InputText @bind-Value="Order.AdminUser" class="form-control" placeholder="Country" />
+        <ValidationMessage For="@(() => Order.AdminUser)" />
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-outline-info" @onclick="UpsertOrder" style="font-weight: bold">@UpsertButton</button>
+        <button type="button" class="btn btn-outline-info" @onclick="CancelMethod" style="font-weight: bold">@CancelButton</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public List<CustomerView> Customers { get; set; }
+
+    [Parameter]
+    public OrderView Order { get; set; }
+
+    [Parameter]
+    public EventCallback UpsertOrder { get; set; }
+
+    [Parameter]
+    public EventCallback CancelMethod { get; set; }
+
+    [Parameter]
+    public string UpsertButton { get; set; }
+
+    [Parameter]
+    public string CancelButton { get; set; }
+
+}

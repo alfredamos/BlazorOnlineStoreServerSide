@@ -1,0 +1,119 @@
+﻿
+<EditForm Model="Customer">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label for="CustomerName" class="form-label">FirstName</label>
+        <InputText @bind-Value="Customer.FirstName" class="form-control" placeholder="Name" />
+        <ValidationMessage For="@(() => Customer.FirstName)" />
+    </div>
+    <div class="form-group">
+        <label for="CustomerName" class="form-label">LastName</label>
+        <InputText @bind-Value="Customer.LastName" class="form-control" placeholder="Name" />
+        <ValidationMessage For="@(() => Customer.LastName)" />
+    </div>
+    <div class="form-group">
+        <label for="Email" class="form-label">Email</label>
+        <InputText @bind-Value="Customer.Email" class="form-control" placeholder="Email Address" />
+        <ValidationMessage For="@(() => Customer.Email)" />
+    </div>
+    <div class="form-group">
+        <label for="Phone" class="form-label">Phone</label>
+        <InputText @bind-Value="Customer.Phone" class="form-control" placeholder="Phone Number" />
+        <ValidationMessage For="@(() => Customer.Phone)" />
+    </div>
+    <div class="form-group">
+        <label for="Street" class="form-label">Street</label>
+        <InputTextArea @bind-Value="AddressL.Street" class="form-control" placeholder="Street" />
+        <ValidationMessage For="@(() => AddressL.Street)" />
+    </div>
+    <div class="form-group">
+        <label for="City" class="form-label">City</label>
+        <InputText @bind-Value="AddressL.City" class="form-control" placeholder="City" />
+        <ValidationMessage For="@(() => AddressL.City)" />
+    </div>
+    <div class="form-group">
+        <label for="State" class="form-label">State</label>
+        <InputText @bind-Value="AddressL.State" class="form-control" placeholder="State" />
+        <ValidationMessage For="@(() => AddressL.State)" />
+    </div>
+    <div class="form-group">
+        <label for="Country" class="form-label">Country</label>
+        <InputText @bind-Value="AddressL.Country" class="form-control" placeholder="Country" />
+        <ValidationMessage For="@(() => AddressL.Country)" />
+    </div>
+    <div class="form-group">
+        <label for="PostCode" class="form-label">Post Code</label>
+        <InputText @bind-Value="AddressL.PostCode" class="form-control" placeholder="Post Code" />
+        <ValidationMessage For="@(() => AddressL.PostCode)" />
+    </div>
+    <div class="form-group">
+        <label for="IsHomeAddress" class="form-label">IsHomeAddress</label>
+        <InputCheckbox @bind-Value="AddressL.IsHomeAddress" class="form-control" placeholder="IsHomeAddress" />
+        <ValidationMessage For="@(() => AddressL.IsHomeAddress)" />
+    </div>
+    <div class="form-group">
+        <label for="IsBillingAddress" class="form-label">IsBillingAddress</label>
+        <InputCheckbox @bind-Value="AddressL.IsBillingAddress" class="form-control" placeholder="IsBillingAddress" />
+        <ValidationMessage For="@(() => AddressL.IsBillingAddress)" />
+    </div>
+    <div class="form-group">
+        <label for="IsShippingAddress" class="form-label">IsShippingAddress</label>
+        <InputCheckbox @bind-Value="AddressL.IsShippingAddress" class="form-control" placeholder="IsShippingAddress" />
+        <ValidationMessage For="@(() => AddressL.IsShippingAddress)" />
+    </div>
+    <div class="form-group">
+        <InputImage Label="Image" OnSelectedImage="OnSelectedImage" ImageURL="@imageURL" />
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-outline-info" @onclick="UpsertCustomer" style="font-weight: bold">@UpsertButton</button>
+        <button type="button" class="btn btn-outline-info" @onclick="CancelMethod" style="font-weight: bold">@CancelButton</button>
+        <button type="button" class="btn btn-outline-info" @onclick="EnterPaymentCard" style="font-weight: bold">@PaymentActionButton</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public AddressView AddressL { get; set; } = new AddressView();
+
+    [Parameter]
+    public CustomerView Customer { get; set; } = new CustomerView();
+
+    [Parameter]
+    public EventCallback UpsertCustomer { get; set; }
+
+    [Parameter]
+    public EventCallback CancelMethod { get; set; }
+
+    [Parameter]
+    public EventCallback EnterPaymentCard { get; set; }
+
+    [Parameter]
+    public string UpsertButton { get; set; }
+
+    [Parameter]
+    public string CancelButton { get; set; }
+
+    [Parameter]
+    public string PaymentActionButton { get; set; }
+
+    private string imageURL;
+
+    protected override void OnInitialized()
+    {
+
+        if (!string.IsNullOrWhiteSpace(Customer.CustomerPhoto))
+        {
+            imageURL = Customer.CustomerPhoto;
+            Customer.CustomerPhoto = null;
+        }
+
+    }
+
+    private void OnSelectedImage(string imageBase64)
+    {
+        Customer.CustomerPhoto = imageBase64;
+        imageURL = null;
+    }
+
+}

@@ -1,0 +1,17 @@
+﻿@page "/editCustomer/{Id:int}"
+@inherits EditCustomerBase
+
+
+@if (ShowCustomerForm)
+{
+    <CustomerForm AddressL="Address" Customer="Customer" UpsertCustomer="UpdateCustomer" CancelMethod="Cancel"
+                  UpsertButton="Save" CancelButton="Cancel" EnterPaymentCard="EditPaymentInfo"
+                  PaymentActionButton="Edit Payment Card Info"/>
+}
+
+@if (ShowPaymentForm)
+{
+    <CreditCardInfo CardDetail="CardDetail" UpsertCardDetail="UpdateCustomer" CancelMethod="CancelPay"
+                    UpsertButton="Submit" CancelButton="Cancel" />
+
+}

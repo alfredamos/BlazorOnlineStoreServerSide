@@ -1,0 +1,21 @@
+﻿@page "/listOfProducts"
+@inherits ListOfProductsBase
+
+<br/>
+
+<h1 class="card-header text-center">List of Products</h1>
+
+<br/>
+
+<SearchItem OnSearchItem="HandleSearch"/>
+
+<br/>
+
+<div class="card-deck" style="min-width: 18rem">
+    @foreach (var product in Products)
+    {
+                 
+        <DisplayProduct Product="product" OnAddProductToCart="AddProductToCart" ShowAddProductToCartButton="true" 
+                        ShowDeleteButton="false" ShowCancelMethodButton="false" Selector="true"/>
+    }
+</div>

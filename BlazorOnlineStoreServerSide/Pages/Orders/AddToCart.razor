@@ -1,0 +1,20 @@
+﻿@page "/addToCart/{productId:int}"
+@inherits AddToCartBase
+
+
+
+@if (ShowOrder)
+{   
+    <OrderLineItemsForm OrderLineItems="OrderLineItems" Products="Products" OrderAction="PlaceOrder" OrderActionButton="Complete Purchase"
+                        ShowShoppingAndRemoveProductButtons="true" ContinueShopping="ContinueShopping" BackButton="Back to Product List"
+                        Back="Back" OnRemoveProductL="RemoveProduct" OnUpdateQuantities="UpdateQuantity"/>
+}
+
+<br />
+
+@if (ShowCustomerInfo)
+{
+    <CheckOut Address="Address" CardDetail="CardDetail" Customer="Customer" OrderLineItems="OrderLineItems" Products="Products"
+              AcceptOrder="CreateOrder" CancelOrder="Cancel"/>
+    
+}  

@@ -1,0 +1,69 @@
+﻿@page "/cardDetailList"
+@inherits CardDetailListBase
+
+
+<br />
+
+<h1 class="card-header text-center">List of Customers Card Details</h1>
+
+<br />
+
+<SearchItem OnSearchItem="HandleSearch" />
+
+<br />
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Card Number</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Country</th>
+            <th>Post Code</th>
+            <th>Update</th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (CardDetails == null)
+        {
+            Console.WriteLine("Load.....");
+        }
+        else if (CardDetails.Count == 0)
+        {
+            Console.WriteLine("No CardDetail information is available at the moment.");
+        }
+        else
+        {
+            @foreach (var cardDetail in CardDetails)
+            {
+
+                <tr>
+                    <td>
+                        <a type="button" href="@($"/cardDetail/{cardDetail.CardDetailID}")" style="text-decoration: none">
+                            @cardDetail.NameOnCard
+                        </a>
+                    </td>
+                    <td>@cardDetail.CardNumber</td>
+                    <td>@cardDetail.BillingAddress.Street</td>
+                    <td>@cardDetail.BillingAddress.City</td>
+                    <td>@cardDetail.BillingAddress.State</td>
+                    <td>@cardDetail.BillingAddress.Country</td>
+                    <td>@cardDetail.BillingAddress.PostCode</td>
+                    <td><button type="button" @onclick="@(() => UpdateCardDetails(cardDetail.CardDetailID))" class="btn btn-warning" style="font-weight: bold"><span class="oi oi-pencil"></span></button></td>
+                    <td><button type="button" @onclick="@(() => DeleteCardDetails(cardDetail.CardDetailID))" class="btn btn-danger" style="font-weight: bold"><span class="oi oi-delete"></span></button></td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+<div colspan="3" class="text-right">
+    <button type="button" style="font-weight: bold" class="btn btn-outline-info btn-rounded" @onclick="CreateCardDetails">
+        Create Card Detail
+        <i class="fas fa-angle-right right"></i>
+    </button>
+</div>

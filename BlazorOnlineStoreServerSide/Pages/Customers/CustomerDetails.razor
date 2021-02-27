@@ -1,0 +1,12 @@
+﻿@page "/customerDetails/{Id:int}"
+@inherits CustomerDetailsBase
+
+
+<DisplayCustomer Address="Address" Customer="Customer" UpdateCustomerL="@(() => UpdateCustomer(Customer.CustomerID))" DeleteClickL="DeleteClick"
+                 ShowFooterMethod="ShowFooterMethod" HideFooterMethod="HideFooterMethod" CancelMethod="Cancel" HideFooter="HideFooter" ShowFooter="ShowFooter"
+                 URL="@("/listOfCustomers")"/>
+
+<ConfirmDelete @ref="DeleteConfirmation" ConfirmationChanged="CustomerToDelete" ConfirmationMessage="@($"Are you sure you want to delete {NameOfCustomer}?")"
+               ConfirmationTitle="Customer Delete Confirmation" />
+
+

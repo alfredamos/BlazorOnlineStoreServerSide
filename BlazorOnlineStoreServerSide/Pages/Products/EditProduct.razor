@@ -1,0 +1,6 @@
+﻿@page "/editProduct/{Id:int}"
+@inherits EditProductBase
+
+
+<ProductForm Product="Product" UpsertProduct="UpdateProduct" CancelMethod="Cancel"
+             UpsertButton="Save" CancelButton="Cancel" />

@@ -1,0 +1,11 @@
+﻿@page "/deleteProduct/{Id:int}"
+@inherits DeleteProductBase
+
+<h3>Delete Product Details</h3>
+
+<hr />
+
+<DisplayProduct Product="Product" DeleteClick="DeleteClick" CancelMethod="Cancel" ShowDeleteButton="true"/>
+
+<ConfirmDelete @ref="DeleteConfirmation" ConfirmationChanged="DeleteProduct" ConfirmationMessage="@($"Are you sure you want to delete {Product.Name}?")"
+               ConfirmationTitle="Product Delete Confirmation" />

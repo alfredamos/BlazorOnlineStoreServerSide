@@ -1,0 +1,96 @@
+﻿
+<br/>
+<br />
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Order Number    : @Order.UniqueID</th>
+            <th>Customer Name   : @(Order.Customer.FirstName + " " + Order.Customer.LastName)</th>
+            <th>Date Placed     : @Order.DatePlaced.ToLongDateString()</th>
+            <th>Customer Total Order</th>
+        </tr>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Sub Total</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Order.OrderLineItems)
+        {
+            SubTotal = item.Price * item.Quantity;
+            var productName = Products.FirstOrDefault(pd => pd.ProductID == item.ProductID).Name;
+            <tr>
+                <td>
+                    <a href="#">@productName</a>
+                </td>
+                <td>@item.Price.ToString("c")</td>
+                <td>@item.Quantity</td>
+                <td>@SubTotal.ToString("c")</td>
+            </tr>
+            Total += SubTotal;
+        }
+        <tr>
+            <td><strong>Total</strong></td>
+            <td></td>
+            <td></td>
+            <td><strong>@Total.ToString("c")</strong></td>
+        </tr>
+    </tbody>
+</table>
+<div colspan="3" class="text-right">
+    @if (ShowProcessedOrderButton)
+    {
+        <button type="button" style="font-weight: bold" class="btn btn-outline-info btn-rounded mr-1" @onclick="@(() => HandleOrderList(Order))">
+            Processed Order
+            <i class="fas fa-angle-right right"></i>
+        </button>
+    }
+    @if (ShowOrderDetailsButton)
+    {
+        <a style="font-weight: bold" class="btn btn-outline-danger btn-rounded mr-1" href="@($"/orderDelete/{Order.UniqueID}")">
+            Delete
+            <i class="fas fa-angle-right right"></i>
+        </a>
+
+        <a style="font-weight: bold" class="btn btn-outline-info btn-rounded" href="@($"/orderDetails/{Order.UniqueID}")">
+            Order Details
+            <i class="fas fa-angle-right right"></i>
+        </a>
+
+    }
+</div>
+
+
+
+
+
+
+@code {
+    [Parameter]
+    public bool ShowProcessedOrderButton { get; set; } = false;
+
+    [Parameter]
+    public bool ShowOrderDetailsButton { get; set; } = true;
+
+    [Parameter]
+    public List<ProductView> Products { get; set; } = new List<ProductView>();
+
+    [Parameter]
+    public OrderView Order { get; set; } = new OrderView();
+
+    [Parameter]
+    public EventCallback<OrderView> OnOrderList { get; set; }
+
+    private double Total = 0.0;
+
+    private double SubTotal = 0.0;
+
+
+    private async Task HandleOrderList(OrderView order)
+    {
+        await OnOrderList.InvokeAsync(order);
+    }
+}

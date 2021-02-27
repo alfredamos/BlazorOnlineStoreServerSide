@@ -1,0 +1,46 @@
+﻿@page "/orderDelete/{OrderNumber}"
+@inherits OrderDeleteBase
+
+
+
+@if (Orders == null)
+{
+    Console.WriteLine("Load.....");
+}
+else if (Orders.Count == 0)
+{
+    Console.WriteLine("No order information is available at the moment.");
+}
+else
+{
+    <hr />
+
+    <h1>@CustomerName order summary : </h1>
+
+    <hr />
+
+    <br />
+
+    @foreach (var order in Orders)
+    {
+        <OrderListOutput Order="order" Products="Products" ShowOrderDetailsButton="false" />
+        <div colspan="3" class="text-right">
+            <a style="font-weight: bold" class="btn btn-outline-info btn-rounded" href="@($"/orderDetails/{order.UniqueID}")">
+                View
+                <i class="fas fa-angle-right right"></i>
+            </a>
+            <button type="button" class="btn btn-outline-danger btn-rounded" @onclick="DeleteClick" style="font-weight: Bold">
+                Delete
+                <i class="fas fa-angle-right right"></i>
+            </button>
+
+            <a style="font-weight: bold" class="btn btn-outline-info btn-rounded" href="@($"/orderList")">
+                Back
+                <i class="fas fa-angle-right right"></i>
+            </a>
+        </div>
+    }
+}
+
+<ConfirmDelete @ref="DeleteConfirmation" ConfirmationChanged="DeleteOrder" ConfirmationMessage="@($"Are you sure you want to delete {CustomerName}'s Order?")"
+               ConfirmationTitle="Order Delete Confirmation" />

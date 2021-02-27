@@ -1,0 +1,22 @@
+﻿@page "/listOfCustomers"
+@inherits ListOfCustomersBase
+
+<br/>
+
+<h1 class="card-header text-center">List of Customers</h1>
+
+<br/>
+
+<div class="card-deck" style="min-width: 18rem">
+    @foreach (var customer in Customers)
+    {
+        Address = customer.Addresses.FirstOrDefault(da => da.IsBillingAddress == true);
+
+        <DisplayCustomer Address="Address" Customer="customer" UpdateCustomerL="@(() => UpdateCustomer(customer.CustomerID))" DeleteClickL="@(() => DeleteCustomer(customer.CustomerID))"
+                         ShowFooterMethod="ShowFooterMethod" HideFooterMethod="HideFooterMethod" ShowCancelMethodButton="false" HideFooter="HideFooter" ShowFooter="ShowFooter" URL="@($"/customerDetails/{customer.CustomerID}")" />
+
+    }
+</div>
+
+
+

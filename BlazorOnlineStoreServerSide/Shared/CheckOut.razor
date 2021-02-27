@@ -1,0 +1,315 @@
+﻿<!--Main layout-->
+
+<main class="mt-3 pt-4">
+    <div class="container wow fadeIn">
+
+        <!-- Heading -->
+        <h2 class="my-5 h2 text-center">Checkout form</h2>
+
+        <!--Grid row-->
+        <div class="row">
+
+            <!--Grid column-->
+            <div class="col-md-8 mb-4">
+
+                <!--Card-->
+                <div class="card">
+
+                    <!--Card content-->
+                    <EditForm Model="Customer" class="card-body">
+                        <DataAnnotationsValidator/>
+                        <ValidationSummary/>
+                        <!--Grid row-->
+                        <div class="row">
+
+                            <!--Grid column-->
+                            <div class="col-md-6 mb-2">
+
+                                <!--firstName-->
+                                <div class="md-form ">
+                                    <label for="firstName" class="">First name</label>
+                                    <InputText @bind-Value="Customer.FirstName" type="text" id="firstName" class="form-control" />
+                                    <ValidationMessage For="@(() => Customer.FirstName)"/>
+                                </div>
+
+                            </div>
+                            <!--Grid column-->
+                            <!--Grid column-->
+                            <div class="col-md-6 mb-2">
+
+                                <!--lastName-->
+                                <div class="md-form">
+                                    <label for="lastName" class="">Last name</label>
+                                    <InputText @bind-Value="Customer.LastName" type="text" id="lastName" class="form-control" />
+                                    <ValidationMessage For="@(() => Customer.LastName)" />
+                                </div>
+
+                            </div>
+                            <!--Grid column-->
+
+                        </div>
+                        <!--Grid row-->
+                        <!--Username-->
+                        <div class="md-form input-group pl-0 mb-5">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"></span>
+                            </div>
+                            <input type="text" class="form-control py-0" placeholder="Username" aria-describedby="basic-addon1">
+                        </div>
+
+                        <!--email-->
+                        <div class="md-form mb-5">
+                            <label for="email" class="">Email (optional)</label>
+                            <InputText @bind-Value="Customer.Email" type="text" id="email" class="form-control" placeholder="youremail@example.com" />
+                            <ValidationMessage For="@(() => Customer.Email)" />
+                        </div>
+
+                        <!--address-->
+                        <div class="md-form mb-5">
+                            <label for="address" class="">Address</label>
+                            <InputTextArea @bind-Value="Address.Street" type="text" id="address" class="form-control" placeholder="1234 Main St" />
+                            <ValidationMessage For="@(() => Address.Street)" />
+                        </div>
+
+                        <!--Grid row-->
+                        <div class="row">
+                            <!--Grid column-->
+                            <div class="col-lg-3 col-md-6 mb-4">
+
+                                <label for="City">City</label>
+                                <InputText @bind-Value="Address.City" type="text" id="City" class="form-control" placeholder="City" />
+                                <ValidationMessage For="@(() => Address.City)" />
+                            </div>
+                            <!--Grid column-->
+                            <div class="col-lg-3 col-md-6 mb-4">
+
+                                <label for="state">State</label>
+                                <InputText @bind-Value="Address.State" type="text" id="State" class="form-control" placeholder="State" />
+                                <ValidationMessage For="@(() => Address.Street)" />
+                            </div>                           
+                            <!--Grid column-->
+                            <div class="col-lg-3 col-md-12 mb-4">
+
+                                <label for="country">Country</label>
+                                <InputText @bind-Value="Address.Country" type="text" id="Country" class="form-control" placeholder="Country" />
+                                <ValidationMessage For="@(() => Address.Country)" />
+                            </div>
+                            <!--Grid column-->
+                            <div class="col-lg-3 col-md-6 mb-4">
+
+                                <label for="zip">Zip</label>
+                                <InputText @bind-Value="Address.PostCode" type="text" class="form-control" id="zip" placeholder="" required />
+                                <ValidationMessage For="@(() => Address.PostCode)" />
+                                <div class="invalid-feedback">
+                                    Zip code required.
+                                </div>
+
+                            </div>
+                            <!--Grid column-->
+
+                        </div>
+                        <!--Grid row-->
+
+                        <hr>
+
+                        <div class="custom-control custom-checkbox">
+                            <InputCheckbox @bind-Value="SameAddress" type="checkbox" class="custom-control-input" id="same-address" />
+                            <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <InputCheckbox @bind-Value="SaveInfo" type="checkbox" class="custom-control-input" id="save-info" />
+                            <label class="custom-control-label" for="save-info">Save this information for next time</label>
+                        </div>
+
+                        @(Customer.SameAddress = SameAddress)
+                        @(Customer.SaveInfo = SaveInfo)
+                        
+                        <hr>
+
+                        <div class="d-block my-3">
+                            <div class="custom-control custom-radio">
+                                <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required />
+                                <label class="custom-control-label" for="credit">Credit card</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                <label class="custom-control-label" for="debit">Debit card</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                <label class="custom-control-label" for="paypal">Paypal</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="cc-name">Name on card</label>
+                                <InputText @bind-Value="CardDetail.NameOnCard" type="text" class="form-control" id="cc-name" placeholder="" required />
+                                <ValidationMessage For="@(() => CardDetail.NameOnCard)" />
+                                <small class="text-muted">Full name as displayed on card</small>
+                                <div class="invalid-feedback">
+                                    Name on card is required
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="cc-number">Credit card number</label>
+                                <InputText @bind-Value="CardDetail.CardNumber" type="text" class="form-control" id="cc-number" placeholder="" required/>
+                                <ValidationMessage For="@(() => CardDetail.CardNumber)" />
+                                <div class="invalid-feedback">
+                                    Credit card number is required
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="cc-expiration">Expiration</label>
+                                <InputDate @bind-Value="CardDetail.ExpiryDate" type="text" class="form-control" id="cc-expiration" placeholder="" required/>
+                                <ValidationMessage For="@(() => CardDetail.ExpiryDate)" />
+                                <div class="invalid-feedback">
+                                    Expiration date required
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="cc-expiration">CVV</label>
+                                <InputText @bind-Value="CardDetail.CardSecurityNumber" type="text" class="form-control" id="cc-cvv" placeholder="" required/>
+                                <ValidationMessage For="@(() => CardDetail.CardSecurityNumber)" />
+                                <div class="invalid-feedback">
+                                    Security code required
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-4">
+                        <button class="btn btn-primary btn-lg btn-block" type="button" @onclick="AcceptOrder" style="font-weight: bold">Continue to checkout</button>
+                        <button type="button" class="btn btn-primary btn-lg btn-block" @onclick="CancelOrder" style="font-weight: bold">Back</button>
+                        
+                    </EditForm>
+
+                </div>
+                <!--/.Card-->
+
+            </div>
+            <!--Grid column-->
+            <!--Grid column-->
+            <div class="col-md-4 mb-4">
+
+                <!-- Heading -->
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Your cart</span>
+                    <span class="badge badge-secondary badge-pill">@NumberOfItems</span>
+                </h4>
+
+                <!-- Cart -->
+
+                <ul class="list-group mb-3 z-depth-1">
+                    
+
+                    @foreach (var orderLineItem in OrderLineItems)
+                    {
+                        var product = Products.FirstOrDefault(pd => pd.ProductID == orderLineItem.ProductID);
+                        ProductName = product.Name;
+
+                        var item = OrderLineItems.FirstOrDefault(x => x.ProductID == orderLineItem.ProductID);
+
+                        var productOfPriceAndQuantity = orderLineItem.Price * orderLineItem.Quantity;
+                        NumberOfItems = orderLineItem.Quantity;
+
+                        @if (OrderLineItems[OrderLineItems.FindIndex(ind => ind.Equals(item))] == OrderLineItems[0])
+                        {                            
+                            Total = 0.0; //----> Initialize Total at the beginning of loop.
+                            NumberOfItems = 0;
+                        }
+
+                        Total += productOfPriceAndQuantity;                       
+
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <h6 class="my-0">@ProductName</h6>
+                                <small class="text-muted">@product.Brand</small>
+                            </div>
+                            <span class="text-muted">@productOfPriceAndQuantity.ToString("c")</span>
+                        </li>
+
+                        @if (OrderLineItems[OrderLineItems.FindIndex(ind => ind.Equals(item))] == OrderLineItems[OrderLineItems.Count - 1])
+                        {
+                            NumberOfItems = OrderLineItems.Count;
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Total</span>
+                                <strong>@Total.ToString("c")</strong> @* Render total at the end of loop *@
+                            </li>
+                        }
+                    }
+                </ul>
+
+                <!-- Cart --> 
+                <!-- Promo code -->
+                <form class="card p-2">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Promo code" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Redeem</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- Promo code -->
+
+            </div>
+            <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+
+    </div>
+</main>
+
+<!--Main layout-->
+<!--Footer-->
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+    <!-- Social icons -->
+    <!--Copyright-->
+    <div class="footer-copyright py-3">
+        © 2018 Copyright:
+        <a href="https://lahtohkay.com/education/bootstrap/" target="_blank"> Lahtohkay.com </a>
+    </div>
+    <!--/.Copyright-->
+
+</footer>
+<!--/.Footer-->
+
+
+@code {
+    [Parameter]
+    public List<ProductView> Products { get; set; } = new List<ProductView>();
+
+    [Parameter]
+    public CardDetailView CardDetail { get; set; } = new CardDetailView();
+
+    [Parameter]
+    public CustomerView Customer { get; set; } = new CustomerView();
+
+    [Parameter]
+    public List<OrderLineItem> OrderLineItems { get; set; } = new List<OrderLineItem>();
+
+    [Parameter]
+    public AddressView Address { get; set; } = new AddressView();
+
+    [Parameter]
+    public EventCallback AcceptOrder { get; set; }
+
+    [Parameter]
+    public EventCallback CancelOrder { get; set; }
+
+    private bool SameAddress { get; set; } = false;
+
+    private bool SaveInfo { get; set; } = false;
+
+    private string FullName { get; set; }
+
+    private string ProductName;
+
+    private double Total = 0.0;
+
+    private int NumberOfItems;
+
+   
+}

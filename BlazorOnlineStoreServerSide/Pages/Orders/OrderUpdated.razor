@@ -1,0 +1,7 @@
+﻿@page "/orderupdated/{UniqueID}"
+@inherits OrderUpdatedBase
+
+
+<OrderLineItemsForm OrderLineItems="OrderLineItems" Products="Products" OrderAction="UpdatedOrder" OrderActionButton="Updated Order"
+                    BackButton="Back to Order List" Back="Cancel" OnUpdateQuantities="UpdateQuantity" />   
+                           

@@ -1,0 +1,82 @@
+﻿<!--Card-->
+<div class="card card-cascade card-ecommerce wider" style="width:40%; height: 50%">
+
+    <!--Card image-->
+    <div class="view view-cascade overlay">
+        <img class="card-img-top" style="width:100%" src="@Product.ImageLink"
+             alt="">
+        <a>
+            <div class="mask rgba-white-slight"></div>
+        </a>
+    </div>
+    <!--/.Card image-->
+    <!--Card content-->
+    <div class="card-body card-body-cascade text-center">
+        <!--Category & Title-->
+        <h6 class="card-title"><strong><a style="text-decoration: none"  href="@(Selector? $"/productDetails/{Product.ProductID}" : "/productList")">@Product.Name</a></strong></h6>
+
+        <!--Description-->
+        <p class="card-text">
+            @Product.Description
+        </p>
+
+        <!--Card footer-->
+        <div class="card-footer">
+            <span class="float-left m-2">@Product.Price.ToString("c")</span>
+            <span class="float-right">
+                <a data-toggle="tooltip" data-placement="top" title="Share"><i class="fas fa-share-alt mr-3"></i></a>
+                <a class="active" data-toggle="tooltip" data-placement="top" title="Added to Wishlist"><i class="fas fa-heart"></i></a>
+            </span>
+        </div>
+        @if (ShowAddProductToCartButton)
+        {
+            <button type="button" style="font-weight: bold" class="btn btn-outline-info m-2" @onclick="@(() => AddProductToCart(Product.ProductID))">Add to Cart</button>
+        }
+        @if (ShowDeleteButton)
+        {
+            <button type="button" style="font-weight: bold" class="btn btn-outline-danger m-2" @onclick="DeleteClick">Delete Product</button>
+        }
+        @if (ShowCancelMethodButton)
+        {
+        <button type="button" style="font-weight: bold" class="btn btn-outline-info m-2" @onclick="CancelMethod">Product list</button>
+        }
+    </div>
+    <!--/.Card content-->
+
+
+</div>
+
+
+@code {
+    [Parameter]
+    public ProductView Product { get; set; } = new ProductView();
+
+    [Parameter]
+    public EventCallback<int> OnAddProductToCart { get; set; }
+
+    [Parameter]
+    public EventCallback DeleteClick { get; set; }
+
+    [Parameter]
+    public EventCallback CancelMethod { get; set; }
+
+    [Parameter]
+    public bool ShowCancelMethodButton { get; set; } = true;
+
+    [Parameter]
+    public bool ShowAddProductToCartButton { get; set; } = false;
+
+    [Parameter]
+    public bool Selector { get; set; } = false;
+
+    [Parameter]
+    public bool ShowDeleteButton { get; set; } = false;
+
+    private async Task AddProductToCart(int productId)
+    {
+        await OnAddProductToCart.InvokeAsync(productId);
+    }
+
+
+
+}

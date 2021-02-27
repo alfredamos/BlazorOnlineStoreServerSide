@@ -1,0 +1,66 @@
+﻿
+<EditForm Model="Product" style="width: 50%">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label for="Brand" class="form-label">Brand</label>
+        <InputText @bind-Value="Product.Brand" class="form-control" placeholder="Brand" />
+        <ValidationMessage For="@(() => Product.Brand)" />
+    </div>
+    <div class="form-group">
+        <label for="Name" class="form-label">Name</label>
+        <InputText @bind-Value="Product.Name" class="form-control" placeholder="Name" />
+        <ValidationMessage For="@(() => Product.Name)" />
+    </div>
+    <div class="form-group">
+        <label for="Price" class="form-label">Price</label>
+        <InputNumber @bind-Value="Product.Price" class="form-control" placeholder="Price" />
+        <ValidationMessage For="@(() => Product.Price)" />
+    </div>
+    <div class="form-group">
+        <InputImage Label="Image" OnSelectedImage="OnSelectedImage" ImageURL="@imageURL" />       
+    </div>
+    <div class="form-group">
+        <label for="Description" class="form-label">Description</label>
+        <InputTextArea @bind-Value="Product.Description" class="form-control" />
+        <ValidationMessage For="@(() => Product.Description)" />
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-outline-info" @onclick="UpsertProduct" style="font-weight: bold">@UpsertButton</button>
+        <button type="button" class="btn btn-outline-info" @onclick="CancelMethod" style="font-weight: bold">@CancelButton</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public ProductView Product { get; set; } = new ProductView();
+
+    [Parameter]
+    public EventCallback UpsertProduct { get; set; }
+
+    [Parameter]
+    public EventCallback CancelMethod { get; set; }
+
+    [Parameter]
+    public string UpsertButton { get; set; }
+
+    [Parameter]
+    public string CancelButton { get; set; }
+
+    private string imageURL;
+
+    protected override void OnInitialized()
+    {
+        if (!string.IsNullOrWhiteSpace(Product.ImageLink))
+        {
+            imageURL = Product.ImageLink;
+            Product.ImageLink = null;
+        }
+    }
+
+    private void OnSelectedImage(string imageBase64)
+    {
+        Product.ImageLink = imageBase64;
+        imageURL = null;
+    }
+}

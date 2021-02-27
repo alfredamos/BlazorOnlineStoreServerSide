@@ -1,0 +1,17 @@
+﻿@page "/addCustomer"
+@inherits AddCustomerBase
+
+
+@if (ShowCustomerForm)
+{
+<CustomerForm AddressL="Address" Customer="Customer" UpsertCustomer="CreateCustomer" CancelMethod="Cancel"
+              UpsertButton="Create" CancelButton="Cancel" EnterPaymentCard="EnterPaymentInfo" 
+              PaymentActionButton="Enter Payment Card Info"/>
+
+}
+
+@if (ShowPaymentForm)
+{
+    <CreditCardInfo CardDetail="CardDetail" UpsertCardDetail="CreateCustomer" CancelMethod="CancelPay"
+                    UpsertButton="Submit" CancelButton="Cancel"/>    
+}

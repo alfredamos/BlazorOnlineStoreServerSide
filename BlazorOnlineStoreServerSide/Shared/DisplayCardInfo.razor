@@ -1,0 +1,78 @@
+﻿
+<div class="mb-4" style="width: 25%">
+    <div class="card text-center">
+        <div class="card-header">           
+            <p class="card-text text-left" style="font-weight: bold; color: blue">Card Expiry Date : @CardDetail.ExpiryDate.ToString()</p>            
+        </div>
+        <div class="card-body">            
+            <p class="card-text text-left" style="font-weight: bold; cursor: pointer; text-decoration: none !important"><a style="text-decoration: none" href="/customerList">Name : @CardDetail.NameOnCard</a></p>
+
+            <p class="card-text text-left" style="font-weight: bold; color: blue">Address : @CardAddress.Street</p>
+            <p class="card-text text-left" style="font-weight: bold; color: blue">City : @CardAddress.City</p>
+            <p class="card-text text-left" style="font-weight: bold; color: blue">Province : @CardAddress.State</p>
+            <p class="card-text text-left" style="font-weight: bold; color: blue">Country : @CardAddress.Country</p>
+            <p class="card-text text-left" style="font-weight: bold; color: blue">Country : @CardAddress.PostCode</p>            
+        </div>
+        @if (ShowFooter)
+        {
+            <div class="card-footer text-muted">
+                <button type="button" style="font-weight: bold" class="btn btn-outline-info mr-1" @onclick="@(() => CardUpdator(CardDetail.CardDetailID))">Edit</button>
+                <button type="button" style="font-weight: bold" class="btn btn-outline-danger mr-1" @onclick="@(() => Delete(CardDetail.CardDetailID))">Delete</button>
+                @if (ShowCancelMethodButton)
+                {
+                    <button type="button" style="font-weight: bold" class="btn btn-outline-info mr-1" @onclick="CancelMethod">Back</button>
+                }
+                <button type="button" style="font-weight: bold" class="btn btn-outline-info mr-1" @onclick="HideFooterMethod">Hide Footer</button>
+            </div>
+        }
+        @if (HideFooter)
+        {
+
+            <button type="button" style="font-weight: bold" class="btn btn-outline-info mr-1" @onclick="ShowFooterMethod">Show Footer</button>
+
+        }
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public CardDetailView CardDetail { get; set; } = new CardDetailView();
+
+    [Parameter]
+    public BillingAddress CardAddress { get; set; } = new BillingAddress();
+
+    [Parameter]
+    public bool ShowFooter { get; set; }
+
+    [Parameter]
+    public bool HideFooter { get; set; }
+
+    [Parameter]
+    public bool ShowCancelMethodButton { get; set; } = true;
+
+    [Parameter]
+    public EventCallback<int> UpdateCardInfo { get; set; }
+
+    [Parameter]
+    public EventCallback<int> DeleteClickL { get; set; }
+
+    [Parameter]
+    public EventCallback CancelMethod { get; set; }
+
+    [Parameter]
+    public EventCallback ShowFooterMethod { get; set; }
+
+    [Parameter]
+    public EventCallback HideFooterMethod { get; set; }
+
+    private async Task Delete(int cardId)
+    {
+        await DeleteClickL.InvokeAsync(cardId);
+    }
+
+    private async Task CardUpdator(int cardId)
+    {
+        await UpdateCardInfo.InvokeAsync(cardId);
+    }
+}

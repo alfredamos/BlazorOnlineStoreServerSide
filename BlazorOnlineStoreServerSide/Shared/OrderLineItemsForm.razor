@@ -1,0 +1,181 @@
+﻿@inject IShoppingCart ShoppingCart
+
+<div class="card">
+    <div class="card-body">
+
+        <!-- Shopping Cart table -->
+        <div class="table-responsive">
+
+            <table class="table table-striped">
+
+                <!-- Table head -->
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="font-weight-bold">
+                            <strong>Product</strong>
+                        </th>
+                        <th></th>
+                        <th class="font-weight-bold">
+                            <strong>Price</strong>
+                        </th>
+                        <th class="font-weight-bold">
+                            <strong>QTY</strong>
+                        </th>
+                        <th class="font-weight-bold">
+                            <strong>Amount</strong>
+                        </th>
+                        @*<th></th>*@
+                    </tr>
+                </thead>                
+                
+                <tbody>
+                    @if (OrderLineItems != null && OrderLineItems.Count > 0)
+                    {
+                        @foreach (var orderLineItem in OrderLineItems)
+                        {
+                            var productOfPriceAndQuantity = orderLineItem.Price * orderLineItem.Quantity;                            
+                            
+                            <tr>                                
+                                <td></td>
+                                <td>
+                                    <h5 class="mt-3">
+                                        <strong>@(ProductName = Products.FirstOrDefault(pd => pd.ProductID == orderLineItem.ProductID).Name)</strong>
+                                    </h5>                                    
+                                </td>
+                                <td></td>
+                                <td>@orderLineItem.Price.ToString("c")</td>
+                                <td>
+                                    <input type="number" min="1" @bind-value="@orderLineItem.Quantity" aria-label="Search" class="form-control" style="width: 100px" @oninput="@(() => UpdateQuantity(orderLineItem))" />
+                                </td>
+                                <td class="font-weight-bold">
+                                    <strong>@productOfPriceAndQuantity</strong>
+                                </td>
+                                @if (ShowShoppingAndRemoveProductButtons)
+                                {
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top"
+                                                title="Remove item" @onclick="@(() => RemoveProduct(orderLineItem))">
+                                            X
+                                        </button>
+                                    </td>
+                                   
+                                }
+                            </tr>
+
+
+
+                        }
+
+                        TotalPurchase = TotalPriceOfProducts();
+                        
+
+                    }
+                    <!-- /.First row -->
+                    <tr>
+                        <td colspan="3"></td>
+                        <td>
+                            <h4 class="mt-2">
+                                <strong>Total</strong>
+                            </h4>
+                        </td>
+                        <td class="text-right">
+                            <h4 class="mt-2">
+                                <strong>@TotalPurchase.ToString("c")</strong>
+                            </h4>
+                        </td>
+                        <td colspan="3" class="text-right">
+                            <button type="button" style="font-weight: bold" class="btn btn-outline-info btn-rounded mr-2" @onclick="OrderAction">
+                                @OrderActionButton
+                                <i class="fas fa-angle-right right"></i>
+                            </button>
+                            @if (ShowShoppingAndRemoveProductButtons)
+                            {
+                                <button type="button" style="font-weight: bold" class="btn btn-outline-info btn-rounded" @onclick="ContinueShopping">
+                                    Continue shopping
+                                    <i class="fas fa-angle-right right"></i>
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+                <!-- /.Table body -->
+
+            </table>
+
+        </div>
+        <!-- /.Shopping Cart table -->
+
+    </div>
+     
+</div>
+<div colspan="3" class="text-right">
+    <button type="button" style="font-weight: bold" class="btn btn-outline-info btn-rounded mt-2" @onclick="Back">
+        @BackButton
+        <i class="fas fa-angle-right right"></i>
+    </button>
+</div>
+
+
+@code {
+    [Parameter]
+    public List<OrderLineItem> OrderLineItems { get; set; }
+
+    [Parameter]
+    public List<ProductView> Products { get; set; }
+
+    [Parameter]
+    public EventCallback<OrderLineItem> OnUpdateQuantities { get; set; }
+
+    [Parameter]
+    public EventCallback<OrderLineItem> OnRemoveProductL { get; set; }
+
+    [Parameter]
+    public EventCallback OrderAction { get; set; }
+
+    [Parameter]
+    public EventCallback Back { get; set; }
+
+    [Parameter]
+    public EventCallback ContinueShopping { get; set; }
+
+    [Parameter]
+    public string OrderActionButton { get; set; }
+
+    [Parameter]
+    public string BackButton { get; set; }
+
+    [Parameter]
+    public bool ShowShoppingAndRemoveProductButtons { get; set; } = false;
+
+    private double TotalPurchase = 0.0;
+
+    private string ProductName;
+
+    private async Task UpdateQuantity(OrderLineItem orderLineItem)
+    {
+        await OnUpdateQuantities.InvokeAsync(orderLineItem);
+    }
+
+    private async Task RemoveProduct(OrderLineItem orderLineItem)
+    {
+        ShoppingCart.DeleteProductFromOrder(orderLineItem.ProductID);
+        TotalPurchase -= orderLineItem.Quantity * orderLineItem.Price;
+        await OnRemoveProductL.InvokeAsync(orderLineItem);
+    }
+
+    protected double TotalPriceOfProducts()
+    {
+        double totalPurchase = 0.0;
+
+        OrderLineItems = ShoppingCart.GetAllOrderLineItems();
+
+
+        foreach (var orderLineItem in OrderLineItems)
+            totalPurchase += orderLineItem.Price * orderLineItem.Quantity;
+
+
+        return totalPurchase;
+    }
+
+} 

@@ -1,0 +1,94 @@
+﻿
+
+<EditForm Model="CardDetail">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label for="NameOnCard" class="form-label">Name on Card</label>
+        <InputText @bind-Value="CardDetail.NameOnCard" class="form-control" placeholder="Name on Card" />
+        <ValidationMessage For="@(() => CardDetail.NameOnCard)" />
+    </div>    
+    <div class="form-group">
+        <label for="CardNumber" class="form-label">Card Number</label>
+        <InputText @bind-Value="CardDetail.CardNumber" class="form-control" placeholder="Card Number" />
+        <ValidationMessage For="@(() => CardDetail.CardNumber)" />
+    </div>
+    <div class="form-group">
+        <label for="CardSecurityNumber" class="form-label">Card Security Number</label>
+        <input @bind-value="CardDetail.CardSecurityNumber" class="form-control" placeholder="Card Security Number" />
+        <ValidationMessage For="@(() => CardDetail.CardSecurityNumber)" />
+    </div>
+    <div class="form-group">
+        <label for="Country" class="form-label">Expiry Date</label>
+        <InputDate @bind-Value="CardDetail.ExpiryDate" class="form-control" placeholder="Country" />
+        <ValidationMessage For="@(() => CardDetail.ExpiryDate)" />
+    </div>
+    <div class="form-group">
+        <label for="Street" class="form-label">Street</label>
+        <InputTextArea @bind-Value="CardAddress.Street" class="form-control" placeholder="Street" />
+        <ValidationMessage For="@(() => CardAddress.Street)" />
+    </div>
+    <div class="form-group">
+        <label for="City" class="form-label">City</label>
+        <InputText @bind-Value="CardAddress.City" class="form-control" placeholder="City" />
+        <ValidationMessage For="@(() => CardAddress.City)" />
+    </div>
+    <div class="form-group">
+        <label for="State" class="form-label">State</label>
+        <InputText @bind-Value="CardAddress.State" class="form-control" placeholder="State" />
+        <ValidationMessage For="@(() => CardAddress.State)" />
+    </div>
+    <div class="form-group">
+        <label for="Country" class="form-label">Country</label>
+        <InputText @bind-Value="CardAddress.Country" class="form-control" placeholder="Country" />
+        <ValidationMessage For="@(() => CardAddress.Country)" />
+    </div>
+    <div class="form-group">
+        <label for="PostCode" class="form-label">Post Code</label>
+        <InputText @bind-Value="CardAddress.PostCode" class="form-control" placeholder="Post Code" />
+        <ValidationMessage For="@(() => CardAddress.PostCode)" />
+    </div>
+    <div class="form-group">
+        <label for="IsHomeAddress" class="form-label">IsHomeAddress</label>
+        <InputCheckbox @bind-Value="CardAddress.IsHomeAddress" class="form-control" placeholder="IsHomeAddress" />
+        <ValidationMessage For="@(() => CardAddress.IsHomeAddress)" />
+    </div>
+    <div class="form-group">
+        <label for="IsBillingAddress" class="form-label">IsBillingAddress</label>
+        <InputCheckbox @bind-Value="CardAddress.IsBillingAddress" class="form-control" placeholder="IsBillingAddress" />
+        <ValidationMessage For="@(() => CardAddress.IsBillingAddress)" />
+    </div>
+    <div class="form-group">
+        <label for="IsShippingAddress" class="form-label">IsShippingAddress</label>
+        <InputCheckbox @bind-Value="CardAddress.IsShippingAddress" class="form-control" placeholder="IsShippingAddress" />
+        <ValidationMessage For="@(() => CardAddress.IsShippingAddress)" />
+    </div>
+
+    <div class="form-group">
+        <button type="button" class="btn btn-outline-info" @onclick="UpsertCardDetail" style="font-weight: bold">@UpsertButton</button>
+        <button type="button" class="btn btn-outline-info" @onclick="CancelMethod" style="font-weight: bold">@CancelButton</button>
+    </div>
+
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public CardDetailView CardDetail { get; set; } = new CardDetailView();
+
+    [Parameter]
+    public BillingAddress CardAddress { get; set; } = new BillingAddress();
+
+    [Parameter]
+    public EventCallback UpsertCardDetail { get; set; }
+
+    [Parameter]
+    public EventCallback CancelMethod { get; set; }
+
+    [Parameter]
+    public string UpsertButton { get; set; }
+
+    [Parameter]
+    public string CancelButton { get; set; }
+  
+} 

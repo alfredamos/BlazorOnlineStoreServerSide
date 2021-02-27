@@ -1,0 +1,33 @@
+﻿@page "/orderProcessed"
+@inherits OrderProcessedBase
+
+<br />
+
+<h1 class="card-header text-center">All Processed Orders</h1>
+
+<br />
+
+<SearchItem OnSearchItem="HandleSearch" />
+
+<br />
+
+@if (Orders == null)
+{
+    Console.WriteLine("Load.....");
+}
+else if (Orders.Count == 0)
+{
+    Console.WriteLine("No order information is available at the moment.");
+}
+else
+{
+    @foreach (var order in Orders)
+    {
+        <OrderListOutput Order="order" Products="Products" ShowOrderDetailsButton="false"/>
+        <a href="@($"/customerProcessedOrders/{order.CustomerID}")" class="btn btn-outline-info" style="font-weight: bold"><span>@order.Customer.FirstName @order.Customer.LastName's Orders</span></a>
+
+    }
+
+}
+<br />
+<a href="/orderList" class="btn btn-outline-info"><span class="oi oi-media-skip-backward"> Back to List</span></a>

@@ -1,0 +1,9 @@
+﻿@page "/cardDetail/{Id:int}"
+@inherits CardDetailsBase
+
+<DisplayCardInfo CardDetail="CardDetail" CardAddress="CardAddress" UpdateCardInfo="@(() => UpdateCard(CardDetail.CardDetailID))"
+                 CancelMethod="Cancel" DeleteClickL="DeleteClick" ShowFooterMethod="ShowFooterMethod" HideFooterMethod="HideFooterMethod"
+                 ShowFooter="ShowFooter" HideFooter="HideFooter"/>
+
+<ConfirmDelete @ref="DeleteConfirmation" ConfirmationChanged="CardToDelete" ConfirmationMessage="@($"Are you sure you want to delete {CardDetail.NameOnCard}'s Card?")"
+               ConfirmationTitle="Card Delete Confirmation" /> 

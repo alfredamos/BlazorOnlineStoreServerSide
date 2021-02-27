@@ -1,0 +1,87 @@
+﻿
+<div class="mb-4" style="width: 25%">
+    <div class="card text-center">
+        <div class="card-header">
+            <img class="card-img-top" style="width:25%" src="@Customer.CustomerPhoto"
+                 alt="">
+            <hr />
+            <p class="card-text text-left" style="font-weight: bold; color: blue">Phone Number : @Customer.Phone</p>
+            <hr />
+            <p class="card-text text-left" style="font-weight: bold; color: blue">Email Address : @Customer.Email</p>
+        </div>
+        <div class="card-body">
+            @*<h5 class="card-title">Special title treatment</h5>*@
+            <p class="card-text text-left" style="font-weight: bold; cursor: pointer; text-decoration: none !important"><a style="text-decoration: none" href=@URL>Name : @($"{Customer.FirstName} {Customer.LastName}")</a></p>
+
+            <p class="card-text text-left" style="font-weight: bold; color: blue">Address : @Address.Street</p>
+            <p class="card-text text-left" style="font-weight: bold; color: blue">City : @Address.City</p>
+            <p class="card-text text-left" style="font-weight: bold; color: blue">Province : @Address.State</p>
+            <p class="card-text text-left" style="font-weight: bold; color: blue">Country : @Address.Country</p>
+
+        </div>
+        @if (ShowFooter)
+        {
+            <div class="card-footer text-muted">
+                <button type="button" style="font-weight: bold" class="btn btn-outline-info" @onclick="@(() => CustomerUpdator(Customer.CustomerID))">Edit</button>
+                <button type="button" style="font-weight: bold" class="btn btn-outline-danger mr-1" @onclick="@(() => Delete(Customer.CustomerID))">Delete</button>
+                @if (ShowCancelMethodButton)
+                {
+                    <button type="button" style="font-weight: bold" class="btn btn-outline-info mr-1" @onclick="CancelMethod">Back</button>
+                }
+            <button type="button" style="font-weight: bold" class="btn btn-outline-info mr-1" @onclick="HideFooterMethod">Hide Footer</button>
+            </div>
+        }
+        @if (HideFooter)
+        {
+
+            <button type="button" style="font-weight: bold" class="btn btn-outline-info mr-1" @onclick="ShowFooterMethod">Show Footer</button>
+
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public bool ShowFooter { get; set; }
+
+    [Parameter]
+    public bool HideFooter { get; set; }
+
+    [Parameter]
+    public bool ShowCancelMethodButton { get; set; } = true;
+
+    [Parameter]
+    public CustomerView Customer { get; set; } = new CustomerView();
+
+    [Parameter]
+    public AddressView Address { get; set; } = new AddressView();
+
+    [Parameter]
+    public EventCallback<int> UpdateCustomerL { get; set; }
+
+    [Parameter]
+    public EventCallback<int> DeleteClickL { get; set; }
+
+    [Parameter]
+    public EventCallback CancelMethod { get; set; }
+
+    [Parameter]
+    public EventCallback ShowFooterMethod { get; set; }
+
+    [Parameter]
+    public EventCallback HideFooterMethod { get; set; }
+
+    [Parameter]
+    public string URL { get; set; }
+
+    private async Task Delete(int customerId)
+    {
+        await DeleteClickL.InvokeAsync(customerId);
+    }
+
+    private async Task CustomerUpdator(int customerId)
+    {
+        await UpdateCustomerL.InvokeAsync(customerId);
+    }
+    
+}

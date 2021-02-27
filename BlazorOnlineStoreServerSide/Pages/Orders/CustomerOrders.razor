@@ -1,0 +1,37 @@
+﻿@page "/customerOrders/{CustomerId:int}"
+@inherits CustomerOrdersBase
+
+
+<br />
+
+<SearchItem OnSearchItem="HandleSearch" />
+
+<br />
+
+@if (Orders == null)
+{
+    Console.WriteLine("Load.....");
+}
+else if (Orders.Count == 0)
+{
+    Console.WriteLine("No order information is available at the moment.");
+}
+else
+{
+    <hr />
+
+    <h1>All Orders By @Orders[0].Customer.FirstName @Orders[0].Customer.LastName : </h1>
+
+    <hr />
+
+    @foreach (var order in Orders)
+    {
+        <OrderListOutput Order="order" Products="Products" ShowProcessedOrderButton="true" OnOrderList="@(() => OrderByDateProcessed(order))" />
+
+
+
+    }
+
+}
+<br/>
+<a href="@("/orderList")" class="btn btn-outline-info"><span class="oi oi-media-skip-backward" style="font-weight: bold"> Back To Order List</span></a>

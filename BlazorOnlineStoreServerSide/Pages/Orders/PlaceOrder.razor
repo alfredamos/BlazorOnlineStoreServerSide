@@ -1,0 +1,30 @@
+﻿@page "/placeOrder/{OrderNumber}"
+@inherits PlaceOrderBase
+
+
+
+@if (Orders == null)
+{
+    Console.WriteLine("Load.....");
+}
+else if (Orders.Count == 0)
+{
+    Console.WriteLine("No order information is available at the moment.");
+}
+else
+{
+    var fullName = $"{Orders[0].Customer.FirstName} {Orders[0].Customer.LastName}";
+    <hr />
+
+    <h1>@fullName order summary : </h1>
+
+    <hr />
+
+    <br />
+        
+    @foreach (var order in Orders)
+    {
+        <OrderListOutput Order="order" Products="Products" />
+
+    }
+}
